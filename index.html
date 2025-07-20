@@ -4,22 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Etheris Chat</title>
-    <!-- Favicon -->
     <link rel="icon" href="Etheris-F.png" type="image/png" />
     <style>
       html, body {
         margin: 0;
         padding: 0;
         height: 100%;
-        width: 100%;
-        background-color: #000; /* Tela preta inicial */
-        color: #fff; /* Texto branco inicial */
+        background-color: #000;
+        color: #fff;
         display: flex;
         align-items: center;
         justify-content: center;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        transition: background-color 3s ease; /* Transição lenta de fundo */
-        overflow: hidden; /* Evita barras de rolagem que podem causar traços */
+        overflow: hidden;
       }
 
       h1 {
@@ -27,35 +24,63 @@
         font-weight: 300;
         opacity: 0.8;
         text-align: center;
-        filter: blur(8px);
-        opacity: 0;
-        transition: color 3s ease;
-        /* animação blur-in */
-        animation: blurIn 1.8s ease-out forwards;
+        z-index: 1;
       }
 
-      /* Responsivo para mobile */
+      /* Mobile only */
       @media (max-width: 768px) {
+        body {
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          background-color: rgba(0, 0, 0, 0.6);
+        }
+
         h1 {
-          font-size: 1.25rem; /* Tamanho proporcional ao mobile */
+          font-family: "Poppins", sans-serif;
+          font-size: 2.8rem;
+          font-weight: 200;
+          text-align: center;
+          letter-spacing: 1px;
+          color: white;
         }
       }
 
-      /* Animação de entrada com blur */
-      @keyframes blurIn {
+      /* Animação de entrada com blur e transições de cor */
+      .fade-sequence {
+        animation: fadeInOutSequence 10s ease-in-out forwards;
+      }
+
+      @keyframes fadeInOutSequence {
         0% {
-          opacity: 0;
+          color: white;
+          background-color: black;
           filter: blur(8px);
         }
+        25% {
+          color: white;
+          background-color: black;
+          filter: blur(0);
+        }
+        50% {
+          color: black;
+          background-color: white;
+          filter: blur(8px);
+        }
+        75% {
+          color: black;
+          background-color: white;
+          filter: blur(0);
+        }
         100% {
-          opacity: 0.8;
+          color: white;
+          background-color: black;
           filter: blur(0);
         }
       }
     </style>
   </head>
-  <body>
-    <h1 id="chatTitle">Converse com a Etheris</h1>
+  <body class="fade-sequence">
+    <h1>Converse com a Etheris</h1>
 
     <!-- Tawk.to Widget -->
     <script type="text/javascript">
@@ -69,49 +94,6 @@
         s1.setAttribute('crossorigin', '*');
         s0.parentNode.insertBefore(s1, s0);
       })();
-
-      // Função para alterar cor do texto e fundo com transição suave
-      function transitionColors() {
-        const title = document.getElementById('chatTitle');
-        const body = document.body;
-
-        let cycles = 0;
-        const maxCycles = 2;
-
-        // Começa com texto branco, fundo preto (já configurado no CSS)
-        title.style.color = '#fff';
-        body.style.backgroundColor = '#000';
-
-        // Delay para o blur-in terminar antes de iniciar o ciclo
-        setTimeout(() => {
-          let isBlackText = false;
-
-          const interval = setInterval(() => {
-            if (cycles >= maxCycles) {
-              clearInterval(interval);
-              // Finaliza com texto branco e fundo preto definitivo
-              title.style.color = '#fff';
-              body.style.backgroundColor = '#000';
-              return;
-            }
-
-            if (isBlackText) {
-              // Texto branco, fundo preto
-              title.style.color = '#fff';
-              body.style.backgroundColor = '#000';
-            } else {
-              // Texto preto, fundo branco
-              title.style.color = '#111';
-              body.style.backgroundColor = '#fff';
-            }
-
-            isBlackText = !isBlackText;
-            cycles++;
-          }, 4000); // 4 segundos para cada transição lenta
-        }, 2000); // espera 2s para blur-in completar antes de começar
-      }
-
-      window.onload = transitionColors;
     </script>
   </body>
 </html>
